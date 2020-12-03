@@ -22,7 +22,8 @@ class BuscaCepAPI: NSObject {
         let task = URLSession.shared.dataTask(with: requisicao) { (data, response, error) in
             if error == nil {
                 do {
-                    let data = try JSONSerialization.jsonObject(with: data!, options: []) as? [String: String]
+                    guard let d = data else {return}
+                    let data = try JSONSerialization.jsonObject(with: d, options: []) as? [String: String]
                     if data != nil {
                         guard let cep = data?["cep"], let rua = data?["logradouro"], let bairro = data?["bairro"], let cidade = data?["localidade"], let estado = data?["uf"] else {
                                 return
